@@ -1,0 +1,13 @@
+.oa-header{
+    background-color: #4CAF50;
+    color: white !important;
+    padding: 10px;
+}
+
+.oa-header-title{
+    color: inherit !important;
+}
+
+a.nav-link{
+    color: inherit !important;
+}

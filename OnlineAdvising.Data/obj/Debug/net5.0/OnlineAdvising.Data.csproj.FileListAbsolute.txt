@@ -1,0 +1,15 @@
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\bin\Debug\net5.0\OnlineAdvising.Data.deps.json
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\bin\Debug\net5.0\OnlineAdvising.Data.runtimeconfig.json
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\bin\Debug\net5.0\OnlineAdvising.Data.runtimeconfig.dev.json
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\bin\Debug\net5.0\OnlineAdvising.Data.dll
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\bin\Debug\net5.0\ref\OnlineAdvising.Data.dll
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\bin\Debug\net5.0\OnlineAdvising.Data.pdb
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\obj\Debug\net5.0\OnlineAdvising.Data.csprojAssemblyReference.cache
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\obj\Debug\net5.0\OnlineAdvising.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\obj\Debug\net5.0\OnlineAdvising.Data.AssemblyInfoInputs.cache
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\obj\Debug\net5.0\OnlineAdvising.Data.AssemblyInfo.cs
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\obj\Debug\net5.0\OnlineAdvising.Data.csproj.CoreCompileInputs.cache
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\obj\Debug\net5.0\OnlineAdvising.Data.dll
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\obj\Debug\net5.0\ref\OnlineAdvising.Data.dll
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\obj\Debug\net5.0\OnlineAdvising.Data.pdb
+D:\Workspaces\OnlineAdvising\OnlineAdvising.Data\obj\Debug\net5.0\OnlineAdvising.Data.genruntimeconfig.cache
