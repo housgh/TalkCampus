@@ -23,6 +23,8 @@ namespace OnlineAdvising.Data
         public virtual DbSet<Chat> Chats { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<PsychologistDashboard> PsychologistDashboard { get; set; }
+        public virtual DbSet<AdminDashboardPatient> AdminDashboardPatients { get; set; }
+        public virtual DbSet<AdminDashboardPsychologist> AdminDashboardPsychologists { get; set; }
         public virtual DbSet<UserFile> UserFiles { get; set; }
     }
 }

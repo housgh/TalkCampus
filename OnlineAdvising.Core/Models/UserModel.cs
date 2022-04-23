@@ -13,6 +13,7 @@ namespace OnlineAdvising.Core.Models
         public string LastName { get; set; }
         public string Password { get; set; }
         public bool HasAppointment { get; set; }
+        public string DegreeName { get; set; }
         public string Biography { get; set; }
         public int UpcomingChatId { get; set; }
         public DateTime DateOfBirth { get; set; }

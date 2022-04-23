@@ -10,6 +10,7 @@ using OnlineAdvising.Core.Interfaces;
 using OnlineAdvising.Core.Models;
 using OnlineAdvising.Core.Results;
 using OnlineAdvising.Data.Entities;
+using OnlineAdvising.Data.ProcedureModels;
 
 namespace OnlineAdvising.Core.Services
 {
@@ -51,24 +52,28 @@ namespace OnlineAdvising.Core.Services
             return result;
         }
 
-        public async Task<Result<List<UserModel>>> GetAsync()
+        public async Task<Result<AdminDashboard>> GetAdminDashboardUsers()
         {
-            var users = await _repository.FindAllAsync();
-            return new Result<List<UserModel>>()
+            var psychologists = await _repository.DbContext.AdminDashboardPsychologists
+                .FromSqlRaw("EXEC GetAdminDashboardPsychologists").ToListAsync();
+            var patients = await _repository.DbContext.AdminDashboardPatients
+                .FromSqlRaw("EXEC GetAdminDashboardPatients").ToListAsync();
+        
+            foreach (var psychologist in psychologists)
             {
-                IsSucceeded = users is not null,
-                Value = users is null ? null : _mapper.Map<List<UserModel>>(users)
-            };
-        }
-
-        public async Task<Result<int>> UpdateAsync(UserModel model)
-        {
-            var user = _mapper.Map<User>(model);
-            var usersUpdated = await _repository.UpdateAsync(user);
-            return new Result<int>()
+                var files = await _repository.DbContext.UserFiles.Where(x => x.UserId == psychologist.Id)
+                    .ToListAsync();
+                psychologist.Files = files;
+            }
+            
+            return new Result<AdminDashboard>()
             {
-                IsSucceeded = usersUpdated > 0,
-                Value = usersUpdated
+                IsSucceeded = psychologists is not null && patients is not null,
+                Value = new AdminDashboard()
+                {
+                    Psychologists = psychologists,
+                    Patients = patients
+                }
             };
         }
 
@@ -113,6 +118,19 @@ namespace OnlineAdvising.Core.Services
             {
                 IsSucceeded = user is not null,
                 Value = user is null ? null : _mapper.Map<UserModel>(user)
+            };
+        }
+
+        public async Task<Result<int>> ActivatePsychologist(int id)
+        {
+            var psychologist = await _repository.GetAsync(id);
+            if (psychologist is null) return new Result<int>();
+            psychologist.AccountStatusId = 1;
+            var rowsAffected = await _repository.UpdateAsync(psychologist);
+            return new Result<int>()
+            {
+                IsSucceeded = rowsAffected > 0,
+                Value = rowsAffected
             };
         }
 

@@ -59,22 +59,24 @@ class Login {
 
     register = () => {
         let formData = new FormData();
-        let files = document.getElementById("files").files;
-        console.log($("#biography").val())
-        for(let i =0;i<files.length;i++){
-            formData.append(`file_${i}`, files[i]);
-        }
         formData.append("firstName", $("#register_firstname").val());
         formData.append("lastName",  $("#register_lastname").val());
         formData.append("username", $("#register_username").val());
         formData.append("email", $("#register_email").val());
         formData.append("password", $("#register_password").val());
         formData.append("roleId", $("#register_role").val());
-        formData.append("biography", $("#biography").val());
 
         if (formData.get("roleId") == 1 && (!formData.get("biography"))) {
             alert("please fill all fields before proceeding.");
             return;
+        }
+        else if(formData.get("roleId") == 1 ){
+            let files = document.getElementById("files").files;
+            for(let i =0;i<files.length;i++){
+                formData.append(`file_${i}`, files[i]);
+            }
+            formData.append("biography", $("#biography").val());
+            formData.append("degreeName", $("#degree").val());
         }
 
         $.ajax({

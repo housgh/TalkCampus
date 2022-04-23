@@ -1,10 +1,10 @@
 class Header{
     constructor() {
         let roleId = localStorage.getItem("roleId");
-        if(!roleId){
-            localStorage.clear();
-            location.href = "/html/login.html";
-        }
+        // if(!roleId){
+        //     localStorage.clear();
+        //     location.href = "/html/login.html";
+        // }
         if(roleId == 2){
             $("#appointments").css("display","none");
             $("#schedule").css("display","none");

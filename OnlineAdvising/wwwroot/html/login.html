@@ -62,15 +62,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Please Enter Documents To Review Your Profile.</p>
+                <p>Please Enter Documents (PDF) To Review Your Profile.</p>
                 <p>Document Needed:</p>
                 <ul>
                     <li>Identification Card/Passport</li>
                     <li>Degree Certificate</li>
                 </ul>
-                <input type="file" multiple id="files">
+                <input type="file" multiple id="files" accept=".pdf">
                 <p>Biography:</p>
                 <textarea style="width: 100%" id="biography"></textarea>
+                <p>Degree:</p>
+                <input type="text" id="degree">
             </div>
             <div class="modal-footer">
                 <button type="button" id="continue" class="btn btn-primary">Continue</button>

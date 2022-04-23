@@ -46,6 +46,22 @@ namespace OnlineAdvising.Controllers
                 UpcomingChatId = patient.Value.UpcomingChatId
             });
         }
+
+        [HttpGet("Admin")]
+        public async Task<IActionResult> GetAdminDashboard()
+        {
+            var dashboard = await _userService.GetAdminDashboardUsers();
+            if (!dashboard.IsSucceeded) return BadRequest();
+            return Ok(dashboard.Value);
+        }
+        
+        [HttpPut("Activate/{id}")]
+        public async Task<IActionResult> ActivatePsychologist(int id)
+        {
+            var result = await _userService.ActivatePsychologist(id);
+            if (!result.IsSucceeded) return BadRequest();
+            return Ok($"Psychologist {id} activated");
+        }
         
     }
 }
