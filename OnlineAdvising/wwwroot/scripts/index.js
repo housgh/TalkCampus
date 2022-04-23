@@ -7,7 +7,8 @@ class Index{
             localStorage.clear();
             location.href = "/html/login.html";
         }
-        let html = roleId == 1? "/html/psychologist-dashboard.html" : "/html/patient-dashboard.html";
+        console.log(roleId)
+        let html = roleId == 1? "/html/psychologist-dashboard.html" : roleId == 2? "/html/patient-dashboard.html" : "/html/users.html";
         $("body").load(html);
     }
 }

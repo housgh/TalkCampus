@@ -48,8 +48,8 @@ class Appointments {
         var startDate = new Date(appointment.startDate);
         var endDate = new Date(appointment.endDate);
         var dateString = `${startDate.getDate()}/${startDate.getMonth()+1}/${startDate.getFullYear()}`
-        var startTime = `${startDate.getHours()}:${startDate.getMinutes()}`
-        var endTime = `${endDate.getHours()}:${endDate.getMinutes()}`
+        var startTime = `${startDate.getHours()}:${startDate.getMinutes() > 10 ? startDate.getMinutes() : "00"}`
+        var endTime = `${endDate.getHours()}:${startDate.getMinutes() > 10 ? startDate.getMinutes() : "00"}`
         input.value = `${dateString} ${startTime} to ${endTime}`;
         inputGroup.append(input);
         if (new Date(appointment.startDate).getDate() === new Date().getDate() && 
@@ -75,18 +75,12 @@ class Appointments {
         $.ajax({
             url: `${appSettings.apiUrl}Appointment/Decline/${id}`,
             method: "PUT",
-            //success: location.reload(),
+            success: location.reload(),
             headers: {userId: localStorage.getItem("userId")}
         });
     }
 
     onJoinClick = (id) => {
-        // $.ajax({
-        //     url: `${appSettings.apiUrl}Appointment/Join`,
-        //     method: "PUT",
-        //     success: this.updateAppointments,
-        //     headers: {userId: localStorage.getItem("userId")}
-        // });
         location.href = `/html/chat.html?chatId=${id}`;
     }
 }

@@ -2,6 +2,9 @@ import {appSettings} from "./appSettings.js";
 
 class Users {
     constructor() {
+        var userId = localStorage.getItem("userId");
+        var roleId = localStorage.getItem("roleId");
+        if(!userId || !roleId || roleId != 3) location.href = "/html/login.html";
         this.bindEvents();
         this.getUser();
     }

@@ -66,7 +66,7 @@ class Login {
         formData.append("password", $("#register_password").val());
         formData.append("roleId", $("#register_role").val());
 
-        if (formData.get("roleId") == 1 && (!formData.get("biography"))) {
+        if (formData.get("roleId") == 1 && !($("#biography").val() && $("#degree").val())) {
             alert("please fill all fields before proceeding.");
             return;
         }
@@ -95,7 +95,7 @@ class Login {
         console.log(result);
         localStorage.setItem("userId", result.id);
         localStorage.setItem("roleId", result.roleId);
-        location.href = "/html/index.html";
+        location.href = result.roleId == 3? "/html/users.html" : "/html/index.html";
     }
 }
 
