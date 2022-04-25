@@ -202,6 +202,23 @@ namespace OnlineAdvicing.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Psychologist"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Patient"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("OnlineAdvising.Data.Entities.ScheduleDay", b =>
@@ -245,6 +262,23 @@ namespace OnlineAdvicing.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Active"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Declined"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Pending"
+                        });
                 });
 
             modelBuilder.Entity("OnlineAdvising.Data.Entities.User", b =>
@@ -294,6 +328,47 @@ namespace OnlineAdvicing.Data.Migrations
                     b.ToTable("Users");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccountStatusId = 1,
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "patient.user@email.com",
+                            FirstName = "Patient",
+                            JoinedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "User",
+                            PasswordHash = "69E45613E534DAB256A77929D08C579E7025FC8CA2D48C86898556AF54E460FB",
+                            RoleId = 2,
+                            Username = "patient.user"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccountStatusId = 1,
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "psychologist.user@email.com",
+                            FirstName = "Psychologist",
+                            JoinedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "User",
+                            PasswordHash = "69E45613E534DAB256A77929D08C579E7025FC8CA2D48C86898556AF54E460FB",
+                            RoleId = 1,
+                            Username = "psychologist.user"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccountStatusId = 1,
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin.user@email.com",
+                            FirstName = "Admin",
+                            JoinedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "User",
+                            PasswordHash = "69E45613E534DAB256A77929D08C579E7025FC8CA2D48C86898556AF54E460FB",
+                            RoleId = 3,
+                            Username = "admin.user"
+                        });
                 });
 
             modelBuilder.Entity("OnlineAdvising.Data.Entities.UserFile", b =>
@@ -319,12 +394,75 @@ namespace OnlineAdvicing.Data.Migrations
                     b.ToTable("UserFiles");
                 });
 
+            modelBuilder.Entity("OnlineAdvising.Data.ProcedureModels.AdminDashboardPatient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AppointmentsCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TimesReported")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdminDashboardPatients");
+                });
+
+            modelBuilder.Entity("OnlineAdvising.Data.ProcedureModels.AdminDashboardPsychologist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Degree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("HoursServed")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentsHelped")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimesReported")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdminDashboardPsychologists");
+                });
+
             modelBuilder.Entity("OnlineAdvising.Data.ProcedureModels.PsychologistDashboard", b =>
                 {
                     b.Property<int>("PsychologistId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccountStatusId")
+                        .HasColumnType("int");
 
                     b.Property<double?>("AverageRating")
                         .HasColumnType("float");

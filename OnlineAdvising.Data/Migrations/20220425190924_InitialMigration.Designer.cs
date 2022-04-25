@@ -10,8 +10,8 @@ using OnlineAdvising.Data;
 namespace OnlineAdvicing.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220313154911_AddedChatEntities")]
-    partial class AddedChatEntities
+    [Migration("20220425190924_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,7 +43,7 @@ namespace OnlineAdvicing.Data.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("TimeEnded")
+                    b.Property<DateTime?>("TimeEnded")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -67,7 +67,7 @@ namespace OnlineAdvicing.Data.Migrations
                     b.Property<int?>("AppointmentId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FirstMessageSentAt")
+                    b.Property<DateTime?>("FirstMessageSentAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -105,6 +105,9 @@ namespace OnlineAdvicing.Data.Migrations
                     b.Property<int?>("ChatId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MessageText")
                         .HasColumnType("nvarchar(max)");
 
@@ -113,6 +116,9 @@ namespace OnlineAdvicing.Data.Migrations
 
                     b.Property<int?>("SenderId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -198,6 +204,23 @@ namespace OnlineAdvicing.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Psychologist"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Patient"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("OnlineAdvising.Data.Entities.ScheduleDay", b =>
@@ -210,14 +233,14 @@ namespace OnlineAdvicing.Data.Migrations
                     b.Property<int?>("DayOfWeekId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("EndHour")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("StartHour")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -241,6 +264,23 @@ namespace OnlineAdvicing.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Active"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Declined"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Pending"
+                        });
                 });
 
             modelBuilder.Entity("OnlineAdvising.Data.Entities.User", b =>
@@ -256,6 +296,10 @@ namespace OnlineAdvicing.Data.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -266,6 +310,9 @@ namespace OnlineAdvicing.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RoleId")
@@ -281,6 +328,188 @@ namespace OnlineAdvicing.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccountStatusId = 1,
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "patient.user@email.com",
+                            FirstName = "Patient",
+                            JoinedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "User",
+                            PasswordHash = "69E45613E534DAB256A77929D08C579E7025FC8CA2D48C86898556AF54E460FB",
+                            RoleId = 2,
+                            Username = "patient.user"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccountStatusId = 1,
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "psychologist.user@email.com",
+                            FirstName = "Psychologist",
+                            JoinedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "User",
+                            PasswordHash = "69E45613E534DAB256A77929D08C579E7025FC8CA2D48C86898556AF54E460FB",
+                            RoleId = 1,
+                            Username = "psychologist.user"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccountStatusId = 1,
+                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin.user@email.com",
+                            FirstName = "Admin",
+                            JoinedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "User",
+                            PasswordHash = "69E45613E534DAB256A77929D08C579E7025FC8CA2D48C86898556AF54E460FB",
+                            RoleId = 3,
+                            Username = "admin.user"
+                        });
+                });
+
+            modelBuilder.Entity("OnlineAdvising.Data.Entities.UserFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Value")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFiles");
+                });
+
+            modelBuilder.Entity("OnlineAdvising.Data.ProcedureModels.AdminDashboardPatient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AppointmentsCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TimesReported")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdminDashboardPatients");
+                });
+
+            modelBuilder.Entity("OnlineAdvising.Data.ProcedureModels.AdminDashboardPsychologist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Degree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("HoursServed")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentsHelped")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimesReported")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdminDashboardPsychologists");
+                });
+
+            modelBuilder.Entity("OnlineAdvising.Data.ProcedureModels.PsychologistDashboard", b =>
+                {
+                    b.Property<int>("PsychologistId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccountStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("AverageRating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Biography")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Degree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("HoursServed")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StudentsHelped")
+                        .HasColumnType("int");
+
+                    b.HasKey("PsychologistId");
+
+                    b.ToTable("PsychologistDashboard");
+                });
+
+            modelBuilder.Entity("OnlineAdvising.Data.Entities.Patient", b =>
+                {
+                    b.HasBaseType("OnlineAdvising.Data.Entities.User");
+
+                    b.HasDiscriminator().HasValue("Patient");
+                });
+
+            modelBuilder.Entity("OnlineAdvising.Data.Entities.Psychologist", b =>
+                {
+                    b.HasBaseType("OnlineAdvising.Data.Entities.User");
+
+                    b.Property<string>("Biography")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DegreeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Psychologist");
                 });
 
             modelBuilder.Entity("OnlineAdvising.Data.Entities.Appointment", b =>
@@ -368,7 +597,7 @@ namespace OnlineAdvicing.Data.Migrations
                         .HasForeignKey("DayOfWeekId");
 
                     b.HasOne("OnlineAdvising.Data.Entities.PsychologistSchedule", "Schedule")
-                        .WithMany()
+                        .WithMany("ScheduleDays")
                         .HasForeignKey("ScheduleId");
 
                     b.Navigation("DayOfWeek");
@@ -389,6 +618,22 @@ namespace OnlineAdvicing.Data.Migrations
                     b.Navigation("AccountStatus");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("OnlineAdvising.Data.Entities.UserFile", b =>
+                {
+                    b.HasOne("OnlineAdvising.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineAdvising.Data.Entities.PsychologistSchedule", b =>
+                {
+                    b.Navigation("ScheduleDays");
                 });
 #pragma warning restore 612, 618
         }
